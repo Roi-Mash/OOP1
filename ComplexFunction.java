@@ -28,8 +28,15 @@ public class ComplexFunction implements complex_function{
 	} 
 	//	Plus, Times, Divid, Max, Min, Comp , None, Error
 
+	public ComplexFunction(Operation op, Polynom left, Polynom right) {
+		this.left=left;
+		this.right = right;
+		this.op = op;		
+	}
+	
 	public String OpToString(Operation p) {
 		Operation O = p;
+		
 		switch(O) {
 
 		case Plus:
