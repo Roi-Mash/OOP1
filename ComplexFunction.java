@@ -1,5 +1,4 @@
 package myMath;
-import java.util.Iterator;
 
 //this class written all by us
 public class ComplexFunction implements complex_function{
@@ -28,7 +27,7 @@ public class ComplexFunction implements complex_function{
 		this.op = getOpFromString(op);
 	} 
 	//	Plus, Times, Divid, Max, Min, Comp , None, Error
-	
+
 	public String OpToString(Operation p) {
 		Operation O = p;
 		switch(O) {
@@ -49,7 +48,7 @@ public class ComplexFunction implements complex_function{
 			return "None"; 
 		case Error:
 			return "Error";
-			
+
 		}
 		return "";
 	}
@@ -166,20 +165,14 @@ public class ComplexFunction implements complex_function{
 
 	@Override
 	public function copy() {
-if(this.right!=null) {
-		ComplexFunction cf = new ComplexFunction(OpToString(this.op), this.left,this.right);
-		return cf;
-	}		
-else {
-	return this.left;
-}}
-	//placeholder
-	//		Iterator<>
-	//		function f1;
-	//		f1 = this.copy();
-	//		
-	//		return f1;
-
+		if(!this.right.toString().equals("")) {
+			ComplexFunction cf = new ComplexFunction(OpToString(this.op), this.left,this.right);
+			return cf;
+		}		
+		else {
+			return this.left;
+		}
+	}
 
 	@Override
 	public function left() {
@@ -192,14 +185,12 @@ else {
 	}
 
 	@Override
-	// if/case for each operation-string
 	public Operation getOp() {
 		return this.op;
 	}
 
 	@Override
 	public function initFromString(String s) {
-
 		Polynom p = new Polynom(s);
 		this.left = p.copy();
 		this.right = new Polynom();
@@ -208,10 +199,5 @@ else {
 		return this;
 	}
 
-	@Override
-	public Iterator<function> iterator() {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
 }

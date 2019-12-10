@@ -30,6 +30,8 @@ public class Polynom implements Polynom_able{
 		s = s.replaceAll("\\-0.0","0.0");
 		s = s.replaceAll("\\--","+");			
 		s = s.replaceAll("\\-+","-");
+		s = s.replaceAll(" ","");
+
 		
 		if(valid_Polynom(s)) //check if the string is valid
 		{
