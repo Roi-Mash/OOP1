@@ -10,48 +10,37 @@ public class Functions_GUI implements functions {
 	Collection<function> collection = new ArrayList<function>();
 
 	@Override
-	public int size() {
+	public int size() {//v
 		return collection.size();
 	}
 
 	@Override
-	public boolean isEmpty() {
-		if (collection.size() ==0)
-			return true;
-		return false;
+	public boolean isEmpty() {	//v
+		return collection.isEmpty();
 	}
-
+	
 	@Override
-	public boolean contains(Object o) {
-		if(collection.contains(o))
-			return true;
-		return false;
-
-	}
-
-	@Override
-	public Iterator<function> iterator() {
-		//		this.collection.iterator().hasNext();
-		return null;
-	}
-
-	@Override
-	public Object[] toArray() {
+	public boolean contains(Object o) {//v
 		try {
-			collection.toArray();
+			collection.contains(o);
 		}
-		catch(NullPointerException ex) {
-			throw new NullPointerException("An NullPointerException occured, please re-check");
+		catch(ClassCastException |NullPointerException ex) {
+			return false;
 		}
-		catch(  ArrayStoreException  ex ) {
-			throw new ArrayStoreException("An ArrayStoreException occured, please re-check");
+		return true;
 		}
-
-		return collection.toArray();
+		@Override
+	public Iterator<function> iterator() {//v
+	return collection.iterator();
 	}
 
 	@Override
-	public <T> T[] toArray(T[] a) {
+	public Object[] toArray() {//v
+	return collection.toArray();
+	}
+
+	@Override
+	public <T> T[] toArray(T[] a) {//v
 		try {
 			collection.toArray(a);
 		}
@@ -65,55 +54,55 @@ public class Functions_GUI implements functions {
 	}
 
 	@Override
-	public boolean add(function e) {
+	public boolean add(function e) {//v
 		try {
 			collection.add(e);
 		}
-		catch(ClassCastException | NullPointerException | UnsupportedOperationException ex ) {
+		catch(ClassCastException | NullPointerException | UnsupportedOperationException|IllegalArgumentException | IllegalStateException ex ) {
 			return false;
 		}
 		return true;
 	}
 
 	@Override
-	public boolean remove(Object o) {
+	public boolean remove(Object o) {//v
 		try {
 			collection.remove(o);
 		}
-		catch(  NullPointerException | ClassCastException  ex ) {
+		catch(  NullPointerException | ClassCastException|UnsupportedOperationException  ex ) {
 			return false;
 		}
 		return true;
 	}
 
 	@Override
-	public boolean containsAll(Collection<?> c) {
+	public boolean containsAll(Collection<?> c) {//v
 		try {
 			collection.containsAll(c);
 		}
-		catch( UnsupportedOperationException |NullPointerException | IllegalArgumentException |IllegalStateException ex ) {
+		catch( NullPointerException |ClassCastException ex ) {
 			return false;
 		}
 		return true;
 	}
 
 	@Override
-	public boolean addAll(Collection<? extends function> c) {
+	public boolean addAll(Collection<? extends function> c) {//v
 		try {
 			collection.addAll(c);
 		}
-		catch( UnsupportedOperationException |NullPointerException | IllegalArgumentException  ex ) {
+		catch( UnsupportedOperationException |NullPointerException | IllegalArgumentException |IllegalStateException|ClassCastException ex ) {
 			return false;
 		}
 		return true;
 	}
 
 	@Override
-	public boolean removeAll(Collection<?> c) {
+	public boolean removeAll(Collection<?> c) {//v
 		try {
 			collection.removeAll(c);
 		}
-		catch( UnsupportedOperationException |NullPointerException | IllegalArgumentException  ex ) {
+		catch( UnsupportedOperationException |NullPointerException | ClassCastException  ex ) {
 			return false;
 		}
 
@@ -121,7 +110,7 @@ public class Functions_GUI implements functions {
 	}
 
 	@Override
-	public boolean retainAll(Collection<?> c) {
+	public boolean retainAll(Collection<?> c) {//v
 		try {
 			collection.retainAll(c);
 		}
