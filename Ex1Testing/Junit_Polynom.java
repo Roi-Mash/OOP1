@@ -1,4 +1,4 @@
-package Ex1Testing;
+package myMath.Ex1Testing;
 
 import static org.junit.jupiter.api.Assertions.*;
 
