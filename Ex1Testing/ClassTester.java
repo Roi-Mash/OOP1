@@ -1,7 +1,7 @@
 //This is our class tester, we had much more tests that were performed during the programming.
 //It covers all of the functions with a variety of test cases.
 
-package Ex1Testing;
+package myMath.Ex1Testing;
 
 import myMath.Monom;
 import myMath.Polynom;
