@@ -1,4 +1,4 @@
-package Ex1Testing;
+package myMath.Ex1Testing;
 
 import java.awt.Color;
 import java.awt.Font;
