@@ -8,6 +8,10 @@ import java.util.Iterator;
 
 public class Functions_GUI implements functions {
 	Collection<function> collection = new ArrayList<function>();
+	int width,height,resolution;
+	double[] RangeX = new double[2];
+	double[] RangeY = new double[2];
+
 
 	@Override
 	public int size() {//v
@@ -146,7 +150,22 @@ public class Functions_GUI implements functions {
 
 	@Override
 	public void drawFunctions(int width, int height, Range rx, Range ry, int resolution) {
-		// TODO Auto-generated method stub
+		SetParams(width,height,rx,ry,resolution);
+		while(collection.iterator().hasNext()) {
+			//codegoeshere->
+			collection.iterator().next();
+		}
+	}
+	
+		public void SetParams(int width, int height, Range rx, Range ry, int resolution) {
+		this.width = width;
+		this.height = height;
+		RangeX[0] =rx.get_min();
+		RangeX[1] = rx.get_max();
+		RangeY[0] = ry.get_min();;
+		RangeY[1] = ry.get_max();
+		this.resolution = resolution;
+
 
 	}
 
