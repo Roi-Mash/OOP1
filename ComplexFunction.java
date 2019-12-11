@@ -7,33 +7,33 @@ public class ComplexFunction implements complex_function{
 	Operation op;
 
 	public ComplexFunction() {
-
-		Polynom a = new Polynom();
-		this.left = a;
+		this.left = null;
+		this.right = null;
 		this.op = Operation.None;
 
 	}
 
 	public ComplexFunction(function f1){
 		this.left =f1.copy();
-		this.right = new Polynom();
+		this.right = null;
 		this.op = Operation.None;
 
 	} 
 
 	public ComplexFunction(String op , function left , function right){
-		this.left=left;
+		this.left = left;
 		this.right = right;
 		this.op = getOpFromString(op);
 	} 
 	//	Plus, Times, Divid, Max, Min, Comp , None, Error
 
-	public ComplexFunction(Operation op, Polynom left, Polynom right) {
+	public ComplexFunction(Operation op, function left, function right) {
 		this.left=left;
 		this.right = right;
-		this.op = op;		
+		this.op = op ;		
 	}
 	
+
 	public String OpToString(Operation p) {
 		Operation O = p;
 		
@@ -66,7 +66,7 @@ public class ComplexFunction implements complex_function{
 			return Operation.Plus;
 		if(op.equals("times"))
 			return Operation.Times;
-		if(op.equals("divid"))
+		if(op.equals("div") || op.equals("divid"))
 			return Operation.Divid;
 		if(op.equals("max"))
 			return Operation.Max;
@@ -172,8 +172,8 @@ public class ComplexFunction implements complex_function{
 
 	@Override
 	public function copy() {
-		if(!this.right.toString().equals("")) {
-			ComplexFunction cf = new ComplexFunction(OpToString(this.op), this.left,this.right);
+		if(this.right != null) {
+			ComplexFunction cf = new ComplexFunction(this.op , this.left,this.right);
 			return cf;
 		}		
 		else {
@@ -206,5 +206,19 @@ public class ComplexFunction implements complex_function{
 		return this;
 	}
 
+	public String toString() {
+		String str = "";
+		if(this.op != null) {
+			System.out.print(OpToString(this.op) +"(");
+			str += this.left.toString();
+			System.out.print(",");
+			str += this.right.toString();
+		}
+		else {
+			str += this.toString();
+		}
+		System.out.print(")");
+		return str;
+	}
 
 }

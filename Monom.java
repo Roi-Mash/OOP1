@@ -163,8 +163,8 @@ public class Monom implements function{
 	}
 	@Override
 	public function copy() {
-		// TODO Auto-generated method stub
-		return null;
+		Monom temp = new Monom(this.get_coefficient(),this.get_power());
+		return temp;
 	}
 
 
