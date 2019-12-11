@@ -1,12 +1,12 @@
 package myMath;
 
 import java.awt.Color;
-import java.awt.Font;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
-import myMath.Range;
 public class Functions_GUI implements functions {
 
 	Collection<function> collection = new ArrayList<function>(); //Configuring the ArrayList
@@ -185,7 +185,6 @@ public class Functions_GUI implements functions {
 		double x_step = x_distance/this.resolution;
 		double x_curr = this.RangeX[0];
 		int col_num = (int)(Math.random() *7);
-		System.out.println(col_num);
 		StdDraw.setPenColor(Colors[col_num]);
 		StdDraw.setPenRadius(0.005);
 
@@ -223,14 +222,36 @@ public class Functions_GUI implements functions {
 
 	@Override
 	public void initFromFile(String file) throws IOException {
-
+	
 		
 	}
 
 	@Override
 	public void saveToFile(String file) throws IOException {
-		
+		String content = this.toString();
+		try {
+		Files.write( Paths.get(file), content.getBytes());
+		}
+		catch(  UnsupportedOperationException |NullPointerException | ClassCastException  ex ) {
+			System.out.println("An Error occured during saveToFile execution. please check your ");
+		}
+		catch(IOException ex) {
+			System.out.println("IOException Occured during saveToFile execution.");
+
+		}
+
 		
 	}
+	
+	public String toString() {
+		String result = "";
+		Iterator<function> itr = collection.iterator();
+		while(itr.hasNext()) {
+			result += itr.next().toString() + "\n";
+			collection.iterator().next();
+		}
+		return result;
+		
+	}	
 
 }
