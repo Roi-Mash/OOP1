@@ -40,21 +40,21 @@ public class ComplexFunction implements complex_function{
 		switch(O) {
 
 		case Plus:
-			return "Plus";
+			return "plus";
 		case Times:
-			return "Times";
+			return "times";
 		case Divid: 
-			return "divid";
+			return "div";
 		case Max:
-			return "Max";
+			return "max";
 		case Min:	 
-			return "Min";
+			return "min";
 		case Comp:
-			return "Comp";
+			return "comp";
 		case None:           
-			return "None"; 
+			return "none"; 
 		case Error:
-			return "Error";
+			return "error";
 
 		}
 		return "";
@@ -209,15 +209,13 @@ public class ComplexFunction implements complex_function{
 	public String toString() {
 		String str = "";
 		if(this.op != null) {
-			System.out.print(OpToString(this.op) +"(");
-			str += this.left.toString();
-			System.out.print(",");
-			str += this.right.toString();
+			str += OpToString(this.op) +"(" +this.left.toString();
+			str += "," + this.right.toString();
 		}
 		else {
 			str += this.toString();
 		}
-		System.out.print(")");
+		str += ")";
 		return str;
 	}
 
