@@ -198,13 +198,40 @@ public class ComplexFunction implements complex_function{
 
 	@Override
 	public function initFromString(String s) {
-		Polynom p = new Polynom(s);
-		this.left = p.copy();
-		this.right = new Polynom();
-		this.op = op.None;
+		public function initFromString(String s) {
+		int i=0;
+		String temp="";
+		while(s.charAt(i)!='(') {
+			temp += s.charAt(i);
+			i++;
+		}
+		this.op = getOpFromString(temp);
+		int j = i;
+		i=-1;
+		int k=0;
+		while(s.charAt(i)!=',') {
+			if(s.charAt(i)==')') {
+				k++;
+				}
+			i--;
+		}
+		String tempRight = s.substring(i-1, -1);
+		Polynom Right = new Polynom(tempRight);
+		this.right = Right;
 
+		String tempLeft = s.substring(j, i+1);
+		initFromString(tempLeft);
+
+
+
+		//		Polynom p = new Polynom(s);
+		//		this.left = p.copy();
+		//		this.right = new Polynom();
+		//		this.op = op.None;
+		//
 		return this;
 	}
+
 
 	public String toString() {
 		String str = "";
