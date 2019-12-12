@@ -1,5 +1,4 @@
 package myMath;
-
 import java.awt.Color;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -7,6 +6,7 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
+
 public class Functions_GUI implements functions {
 
 	Collection<function> collection = new ArrayList<function>(); //Configuring the ArrayList
@@ -147,32 +147,29 @@ public class Functions_GUI implements functions {
 		}
 
 	}
-
-	
 	@Override
 	public void drawFunctions(int width, int height, Range rx, Range ry, int resolution) {
 		SetParams(width,height,rx,ry,resolution);
 		StdDraw.setCanvasSize(this.width, this.height);
 		StdDraw.setXscale(this.RangeX[0] , this.RangeY[1]);
 		StdDraw.setYscale(this.RangeY[0] , this.RangeY[1]);
-		////////vertical lines
+		//vertical lines
 //		StdDraw.setPenColor(Color.LIGHT_GRAY);
 //		for (int i = 0; i <= 100; i=i+10) {
 //			StdDraw.line(this.RangeX[0] , this.RangeY[0], this.RangeX[1], this.RangeY[1]);
 //		}
-		//////horizontal lines
+		//horizontal lines
 //		for (double i = minY; i <= maxY; i=i+0.5) {
 //			StdDraw.line(0, i, Math.PI, i);
 //		}
-		////////x axis
+		//X axis
 		StdDraw.setPenColor(Color.BLACK);
 		StdDraw.setPenRadius(0.005);
 		StdDraw.line(this.RangeX[0], 0 , this.RangeX[1], 0);
 		
-		////////y axis
+	    //Y axis
 		StdDraw.line(0, this.RangeY[0], 0, this.RangeY[1]);
-//		
-//		//end
+
 		Iterator<function> itr = collection.iterator();
 		while(itr.hasNext()) {
 			DrawFunction(itr.next());			
@@ -187,7 +184,6 @@ public class Functions_GUI implements functions {
 		int col_num = (int)(Math.random() *7);
 		StdDraw.setPenColor(Colors[col_num]);
 		StdDraw.setPenRadius(0.005);
-
 		int sample_value = (int)(x_distance/x_step+1);
 		double[] x = new double[sample_value];
 		double[] y = new double[sample_value];
@@ -211,8 +207,6 @@ public class Functions_GUI implements functions {
 		RangeY[0] = ry.get_min();;
 		RangeY[1] = ry.get_max();
 		this.resolution = resolution;
-
-
 	}
 	@Override
 	public void drawFunctions(String json_file) {
@@ -222,61 +216,8 @@ public class Functions_GUI implements functions {
 
 	@Override
 	public void initFromFile(String file) throws IOException {
-		try{
-
-			// Open the file that is the first 
-			// command line parameter
-
-			//checks where the path is going ?????????????????????
-			System.out.println(System.getProperty("user.dir"));
-
-			//
-			FileInputStream fstream = new FileInputStream(file);
-
-
-			// Get the object of DataInputStream
-			DataInputStream in = new DataInputStream(fstream);
-			BufferedReader br = new BufferedReader(new InputStreamReader(in));
-			String strLine;
-
-
-			//Read File Line By Line
-			this.collection.clear();
-
-			while ((strLine = br.readLine()) != null) 	{
-
-				if(lineChecker(strLine)){
-
-
-					if(strLine.contains("(")) {
-						//create new complexFunction from string
-						//add to collection
-
-					}
-					else if(strLine.substring(1).contains("+")||strLine.substring(1).contains("-")) {
-						Polynom strLineP = new Polynom(strLine);
-						this.add(strLineP);
-					}
-				}
-				else {
-					throw new IOException("Wrong string in file");
-				}
-			}
-
-		}
-		catch(Exception e){
-			}
-		}
-
-
-
-
-
-
-
-		private boolean lineChecker(String strLine) {
-		// TODO Auto-generated method stub
-		return false;
+	
+		
 	}
 
 	@Override
@@ -285,15 +226,12 @@ public class Functions_GUI implements functions {
 		try {
 		Files.write( Paths.get(file), content.getBytes());
 		}
-		catch(  UnsupportedOperationException |NullPointerException | ClassCastException  ex ) {
+		catch( UnsupportedOperationException |NullPointerException | ClassCastException | SecurityException |IllegalArgumentException  ex ) {
 			System.out.println("An Error occured during saveToFile execution. please check your ");
 		}
 		catch(IOException ex) {
 			System.out.println("IOException Occured during saveToFile execution.");
-
 		}
-
-		
 	}
 	
 	public String toString() {
