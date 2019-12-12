@@ -1,24 +1,20 @@
 package myMath;
 import java.awt.Color;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.Stack;
+import java.io.*;
+import java.nio.file.*;
+import java.util.*;
+import com.google.gson.*;
 
 public class Functions_GUI implements functions {
 
 	Collection<function> collection = new ArrayList<function>(); //Configuring the ArrayList
 	public static Color[] Colors = {Color.blue, Color.cyan, Color.MAGENTA, Color.ORANGE, Color.red, Color.GREEN, Color.PINK}; 
-	// Class Params
-	int width,height,resolution;
-	double[] RangeX = new double[2];
-	double[] RangeY = new double[2];
+	//* Class Parameters*//
+	public int Width,Height,Resolution;
+	public double[] Range_X = new double[2];
+	public double[] Range_Y = new double[2];
 
-//Start of Collection Methods wrapped with Try&Catch//
-	
+	//*Start of all Collection Methods wrapped with Try&Catch//*
 	@Override
 	public int size() {
 		return collection.size();
@@ -149,24 +145,26 @@ public class Functions_GUI implements functions {
 		}
 
 	}
-	
-	//End of collection's Methods
-	
+
+	//*End of all basic collection Methods//*
+
 	@Override
 	public void drawFunctions(int width, int height, Range rx, Range ry, int resolution) {
 		SetParams(width,height,rx,ry,resolution);
-		//Canvas and X&Y scales creation
-		StdDraw.setCanvasSize(this.width, this.height);
-		StdDraw.setXscale(this.RangeX[0] , this.RangeY[1]);
-		StdDraw.setYscale(this.RangeY[0] , this.RangeY[1]);
-
-		//X axis
+		//* Canvas and X&Y scales creation* //
+		StdDraw.setCanvasSize(this.Width, this.Height);
+		StdDraw.setXscale(this.Range_X[0] , this.Range_Y[1]);
+		StdDraw.setYscale(this.Range_Y[0] , this.Range_Y[1]);
+		/**
+		 *	X axis
+		 */
 		StdDraw.setPenColor(Color.BLACK);
 		StdDraw.setPenRadius(0.005);
-		StdDraw.line(this.RangeX[0], 0 , this.RangeX[1], 0);
-		
-	    //Y axis
-		StdDraw.line(0, this.RangeY[0], 0, this.RangeY[1]);
+		StdDraw.line(this.Range_X[0], 0 , this.Range_X[1], 0);
+		/**
+		 * Y axis
+		 */
+		StdDraw.line(0, this.Range_Y[0], 0, this.Range_Y[1]);
 		int funcNum=0; //giving each function a number
 		Iterator<function> itr = collection.iterator();
 		while(itr.hasNext()) { //Iterating over the collection and drawing each function.
@@ -177,33 +175,42 @@ public class Functions_GUI implements functions {
 	}
 
 	public void DrawFunction(function a,int funcNum) {
-		double x_distance = Math.abs(this.RangeX[1] - this.RangeX[0]); //absolute distance
-		double x_step = x_distance/this.resolution; // Calcing the Steps to draw
-		double x_curr = this.RangeX[0];
+		double x_distance = Math.abs(this.Range_X[1] - this.Range_X[0]); //absolute distance
+		double x_step = x_distance/this.Resolution; // Calcing the Steps to draw
+		double x_curr = this.Range_X[0];
 		int col_num = (int)(Math.random() *7); //Randomizing a num 0-6 for the ColorArray.
 		StdDraw.setPenColor(Colors[col_num]); //Setting the random color.
 		StdDraw.setPenRadius(0.005); //Setting pen radius
 		int sample_value = (int)(x_distance/x_step+1);
-		//The actual x,y charts to draw
+		/**
+		 * The actual x,y charts to draw
+		 */
 		double[] x = new double[sample_value];
 		double[] y = new double[sample_value];
-
-		//inserting values simultaneously  (x, f(x)
+		/**
+		 * inserting values simultaneously  (x, f(x))
+		 */
 		for (int i = 0; i < sample_value; i++) {
 			x[i] = x_curr;
 			y[i] = a.f(x[i]);
 			x_curr += x_step;
 		}
-
-		//Drawing the line  in the sample value range
+		/**
+		 * Drawing the line  in the sample value range
+		 */
 		for (int i = 1; i < sample_value; i++) {
 			StdDraw.line(x[i-1], y[i-1], x[i], y[i]);
 		}
-		//Output to screen
+		/**
+		 * Output to screen
+		 */
 		System.out.println(funcNum+GetRGB(Colors[col_num]) + a.toString());
 
-	}
-	//Get RGB string to display form Color.
+	} // End of DrawFunction
+
+	/**
+	 *Get RGB string to display form Color
+	 */
 	public String GetRGB(Color color) {
 		int R = color.getRed();
 		int G = color.getGreen();
@@ -212,89 +219,76 @@ public class Functions_GUI implements functions {
 		return res;
 	}
 
-//Basic setter for this.variables
+	/*
+	 * Basic setter for this.variables
+	 */
 	public void SetParams(int width, int height, Range rx, Range ry, int resolution) {
-		this.width = width;
-		this.height = height;
-		RangeX[0] =rx.get_min();
-		RangeX[1] = rx.get_max();
-		RangeY[0] = ry.get_min();;
-		RangeY[1] = ry.get_max();
-		this.resolution = resolution;
+		this.Width = width;
+		this.Height = height;
+		Range_X[0] =rx.get_min();
+		Range_X[1] = rx.get_max();
+		Range_Y[0] = ry.get_min();;
+		Range_Y[1] = ry.get_max();
+		this.Resolution = resolution;
 	}
 	@Override
 	public void drawFunctions(String json_file) {
-		// TODO Auto-generated method stub
+		/*
+		 * Creating a gson object with PrettyPrint(easier to read by user)
+		 */
+		Gson gson = new GsonBuilder().setPrettyPrinting().create();
 
+		try {
+			/*
+			 * Creating a new FileReader session
+			 */
+			Reader readSession = new FileReader(json_file);
+			/*
+			 * Converting from JSON File to Java Object (using Json_GUI class)
+			 */
+			Json_GUI temp = gson.fromJson(readSession, Json_GUI.class);
+			/*
+			 * Setter to this.parameters
+			 */
+			SetFromJson(temp.Width,temp.Height,temp.Range_X,temp.Range_Y,temp.Resolution);
+
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+	}
+
+	/*
+	 * Helper function
+	 */
+	public void SetFromJson(int width, int height, double[] rx, double[] ry, int resolution) {
+		this.Width = width;
+		this.Height = height;
+		this.Resolution = resolution;
+		Range tempx = new Range(rx[0],rx[1]);
+		Range tempy = new Range(ry[0],ry[1]);
+		drawFunctions(this.Width,this.Height,tempx,tempy,this.Resolution);
 	}
 
 	@Override
 	public void initFromFile(String file) throws IOException {
-		try{
-
-			// Open the file that is the first 
-			// command line parameter
-
-			//checks where the path is going ?????????????????????
-			System.out.println(System.getProperty("user.dir"));
-
-			//
-			FileInputStream fstream = new FileInputStream(file);
 
 
-			// Get the object of DataInputStream
-			DataInputStream in = new DataInputStream(fstream);
-			BufferedReader br = new BufferedReader(new InputStreamReader(in));
-			String strLine;
-
-
-			//Read File Line By Line
-			this.collection.clear();
-
-			while ((strLine = br.readLine()) != null) 	{
-
-				//if(lineChecker(strLine)){
-
-
-				if(strLine.contains("(")) {
-					ComplexFunction p1 = new ComplexFunction();
-					this.add(p1.initFromString(strLine));
-
-				}
-				else {
-
-					//if(strLine.substring(1).contains("+")||strLine.substring(1).contains("-")) {
-					Polynom strLineP = new Polynom(strLine);
-					this.add(strLineP);
-
-				}
-				}
-								
-			
-
-		}
-		catch(Exception e){
-			
-		}
-	}
-
-
-
-
-
-
-
-		private boolean lineChecker(String strLine) {
-		// TODO Auto-generated method stub
-		return false;
 	}
 
 	@Override
 	public void saveToFile(String file) throws IOException {
 		String content = this.toString();
+
+		/*
+		 * writing content to file using files+paths libs
+		 */
 		try {
-		Files.write( Paths.get(file), content.getBytes());
+			Files.write( Paths.get(file), content.getBytes());
 		}
+		/*
+		 * Catching all relevant Exceptions
+		 */
 		catch( UnsupportedOperationException |NullPointerException | ClassCastException | SecurityException |IllegalArgumentException  ex ) {
 			System.out.println("An Error occured during saveToFile execution. please check your ");
 		}
@@ -302,7 +296,10 @@ public class Functions_GUI implements functions {
 			System.out.println("IOException Occured during saveToFile execution.");
 		}
 	}
-	
+
+	/*
+	 * Iterating and printing each one of the functions in a newline.
+	 */
 	public String toString() {
 		String result = "";
 		Iterator<function> itr = collection.iterator();
@@ -311,35 +308,6 @@ public class Functions_GUI implements functions {
 			collection.iterator().next();
 		}
 		return result;
-		
 	}
-	//Check for balanced Parenthesis for each line
-	//Part of the LineValidators
-	public static boolean BalancedParenthesis(String line)
-	 {
-	 if (line.isEmpty())
-	 return true;
-	 
-	 Stack<Character> ParentesisStack = new Stack<Character>();
-	 for (int i = 0; i < line.length(); i++)
-	 {
-	 char current = line.charAt(i);
-	 if (current == '(')
-	 {
-	 ParentesisStack.push(current);
-	 }
-	 if (current == ')')
-	 {
-	 if (ParentesisStack.isEmpty())
-	 return false;
-	 char last = ParentesisStack.peek();
-	 if (current == ')' && last == '(')
-	 ParentesisStack.pop();
-	 else 
-	 return false;
-	 }
-	 }
-	 return ParentesisStack.isEmpty()?true:false;
-	 }
 
 }
