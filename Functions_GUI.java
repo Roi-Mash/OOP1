@@ -230,8 +230,63 @@ public class Functions_GUI implements functions {
 
 	@Override
 	public void initFromFile(String file) throws IOException {
-	
-		
+		try{
+
+			// Open the file that is the first 
+			// command line parameter
+
+			//checks where the path is going ?????????????????????
+			System.out.println(System.getProperty("user.dir"));
+
+			//
+			FileInputStream fstream = new FileInputStream(file);
+
+
+			// Get the object of DataInputStream
+			DataInputStream in = new DataInputStream(fstream);
+			BufferedReader br = new BufferedReader(new InputStreamReader(in));
+			String strLine;
+
+
+			//Read File Line By Line
+			this.collection.clear();
+
+			while ((strLine = br.readLine()) != null) 	{
+
+				//if(lineChecker(strLine)){
+
+
+				if(strLine.contains("(")) {
+					ComplexFunction p1 = new ComplexFunction();
+					this.add(p1.initFromString(strLine));
+
+				}
+				else {
+
+					//if(strLine.substring(1).contains("+")||strLine.substring(1).contains("-")) {
+					Polynom strLineP = new Polynom(strLine);
+					this.add(strLineP);
+
+				}
+				}
+								
+			
+
+		}
+		catch(Exception e){
+			
+		}
+	}
+
+
+
+
+
+
+
+		private boolean lineChecker(String strLine) {
+		// TODO Auto-generated method stub
+		return false;
 	}
 
 	@Override
