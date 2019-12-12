@@ -6,17 +6,19 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
+import java.util.Stack;
 
 public class Functions_GUI implements functions {
 
 	Collection<function> collection = new ArrayList<function>(); //Configuring the ArrayList
 	public static Color[] Colors = {Color.blue, Color.cyan, Color.MAGENTA, Color.ORANGE, Color.red, Color.GREEN, Color.PINK}; 
-	//params
+	// Class Params
 	int width,height,resolution;
 	double[] RangeX = new double[2];
 	double[] RangeY = new double[2];
 
-
+//Start of Collection Methods wrapped with Try&Catch//
+	
 	@Override
 	public int size() {
 		return collection.size();
@@ -143,25 +145,21 @@ public class Functions_GUI implements functions {
 			collection.clear();
 		}
 		catch( UnsupportedOperationException |NullPointerException | ClassCastException  ex ) {
-			System.out.println("An error occured. please check");
+			System.out.println("An error occured clearing the collection. Please check");
 		}
 
 	}
+	
+	//End of collection's Methods
+	
 	@Override
 	public void drawFunctions(int width, int height, Range rx, Range ry, int resolution) {
 		SetParams(width,height,rx,ry,resolution);
+		//Canvas and X&Y scales creation
 		StdDraw.setCanvasSize(this.width, this.height);
 		StdDraw.setXscale(this.RangeX[0] , this.RangeY[1]);
 		StdDraw.setYscale(this.RangeY[0] , this.RangeY[1]);
-		//vertical lines
-//		StdDraw.setPenColor(Color.LIGHT_GRAY);
-//		for (int i = 0; i <= 100; i=i+10) {
-//			StdDraw.line(this.RangeX[0] , this.RangeY[0], this.RangeX[1], this.RangeY[1]);
-//		}
-		//horizontal lines
-//		for (double i = minY; i <= maxY; i=i+0.5) {
-//			StdDraw.line(0, i, Math.PI, i);
-//		}
+
 		//X axis
 		StdDraw.setPenColor(Color.BLACK);
 		StdDraw.setPenRadius(0.005);
@@ -169,36 +167,52 @@ public class Functions_GUI implements functions {
 		
 	    //Y axis
 		StdDraw.line(0, this.RangeY[0], 0, this.RangeY[1]);
-
+		int funcNum=0; //giving each function a number
 		Iterator<function> itr = collection.iterator();
-		while(itr.hasNext()) {
-			DrawFunction(itr.next());			
+		while(itr.hasNext()) { //Iterating over the collection and drawing each function.
+			DrawFunction(itr.next(),funcNum);		
+			funcNum++;
 			collection.iterator().next();
 		}
 	}
 
-	public void DrawFunction(function a) {
-		double x_distance = Math.abs(this.RangeX[1] - this.RangeX[0]);
-		double x_step = x_distance/this.resolution;
+	public void DrawFunction(function a,int funcNum) {
+		double x_distance = Math.abs(this.RangeX[1] - this.RangeX[0]); //absolute distance
+		double x_step = x_distance/this.resolution; // Calcing the Steps to draw
 		double x_curr = this.RangeX[0];
-		int col_num = (int)(Math.random() *7);
-		StdDraw.setPenColor(Colors[col_num]);
-		StdDraw.setPenRadius(0.005);
+		int col_num = (int)(Math.random() *7); //Randomizing a num 0-6 for the ColorArray.
+		StdDraw.setPenColor(Colors[col_num]); //Setting the random color.
+		StdDraw.setPenRadius(0.005); //Setting pen radius
 		int sample_value = (int)(x_distance/x_step+1);
+		//The actual x,y charts to draw
 		double[] x = new double[sample_value];
 		double[] y = new double[sample_value];
 
+		//inserting values simultaneously  (x, f(x)
 		for (int i = 0; i < sample_value; i++) {
 			x[i] = x_curr;
 			y[i] = a.f(x[i]);
 			x_curr += x_step;
 		}
 
+		//Drawing the line  in the sample value range
 		for (int i = 1; i < sample_value; i++) {
 			StdDraw.line(x[i-1], y[i-1], x[i], y[i]);
 		}
+		//Output to screen
+		System.out.println(funcNum+GetRGB(Colors[col_num]) + a.toString());
+
+	}
+	//Get RGB string to display form Color.
+	public String GetRGB(Color color) {
+		int R = color.getRed();
+		int G = color.getGreen();
+		int B = color.getBlue();
+		String res = ") Java.awt.Color[r="+R+",g="+G+",b="+B+"] f(x)= ";
+		return res;
 	}
 
+//Basic setter for this.variables
 	public void SetParams(int width, int height, Range rx, Range ry, int resolution) {
 		this.width = width;
 		this.height = height;
@@ -243,6 +257,34 @@ public class Functions_GUI implements functions {
 		}
 		return result;
 		
-	}	
+	}
+	//Check for balanced Parenthesis for each line
+	//Part of the LineValidators
+	public static boolean BalancedParenthesis(String line)
+	 {
+	 if (line.isEmpty())
+	 return true;
+	 
+	 Stack<Character> ParentesisStack = new Stack<Character>();
+	 for (int i = 0; i < line.length(); i++)
+	 {
+	 char current = line.charAt(i);
+	 if (current == '(')
+	 {
+	 ParentesisStack.push(current);
+	 }
+	 if (current == ')')
+	 {
+	 if (ParentesisStack.isEmpty())
+	 return false;
+	 char last = ParentesisStack.peek();
+	 if (current == ')' && last == '(')
+	 ParentesisStack.pop();
+	 else 
+	 return false;
+	 }
+	 }
+	 return ParentesisStack.isEmpty()?true:false;
+	 }
 
 }
