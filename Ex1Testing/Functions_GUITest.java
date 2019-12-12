@@ -1,5 +1,6 @@
 package myMath.Ex1Testing;
 
+import java.io.IOException;
 import java.util.Iterator;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -30,18 +31,25 @@ import myMath.functions;
  *
  */
 class Functions_GUITest {
-	public static void main(String[] a) {
+	public static void main(String[] a) throws IOException {
 //		functions data = FunctionsFactory();
-		functions ans = new Functions_GUI();
+		functions AAA = new Functions_GUI();
+//		
+//		ComplexFunction p1 = new ComplexFunction(Operation.Plus , new Monom("3") ,new Polynom ("2x"));
+//		ComplexFunction p2 = new ComplexFunction(new Monom("6x"));
+//		p2.div(p1);
+//		p2.max(new Polynom ("4x^2 - 5"));
+//		ComplexFunction p3 = new ComplexFunction(Operation.Times,p1,p2);
+		ComplexFunction p4 = new ComplexFunction();
+
 		
-		ComplexFunction p1 = new ComplexFunction(Operation.Plus , new Monom("3") ,new Polynom ("2x"));
-		ComplexFunction p2 = new ComplexFunction(new Monom("6x"));
-		p2.div(p1);
-		p2.max(new Polynom ("4x^2 - 5"));
 		
-		
-		System.out.println(p2.toString());
-//		function p2 = new Polynom("x-1");
+	AAA.initFromFile("C:\\Users\\talbg\\eclipse-workspace\\secondYear\\function_file (1).txt");
+		int w=1000, h=600, res=200;
+		Range rx = new Range(-10,10);
+		Range ry = new Range(-5,15);
+		AAA.drawFunctions(w,h,rx,ry,res);		
+	//	function p2 = new Polynom("x-1");
 //		p1.mul(p2);
 //		
 //		ans.add(p1.copy());
@@ -54,19 +62,19 @@ class Functions_GUITest {
 //		Range ry = new Range(-5,15);
 //		ans.drawFunctions(w,h,rx,ry,res);
 //
-		String file = "Saved_Functions.txt";
-		try {
-			data.saveToFile(file);
+//		String file = "Saved_Functions.txt";
+//		try {
+////			data.saveToFile(file);
 //			Functions_GUI data2 = new Functions_GUI();
 //			data2.initFromFile(file);
 //			data.saveToFile(file2);
-		}
-		catch(Exception e) {e.printStackTrace();}
+	//	}
+//		catch(Exception e) {e.printStackTrace();}
 //		
 //		String JSON_param_file = "GUI_params.txt";
 //		data.drawFunctions(JSON_param_file);
 	}
-	private functions _data=null;
+	//private functions _data=null;
 //	@BeforeAll
 //	static void setUpBeforeClass() throws Exception {
 //	}
