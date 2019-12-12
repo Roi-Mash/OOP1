@@ -32,11 +32,11 @@ public class ComplexFunction implements complex_function{
 		this.right = right;
 		this.op = op ;		
 	}
-	
+
 
 	public String OpToString(Operation p) {
 		Operation O = p;
-		
+
 		switch(O) {
 
 		case Plus:
@@ -64,7 +64,7 @@ public class ComplexFunction implements complex_function{
 		op.toLowerCase();
 		if(op.equals("plus"))
 			return Operation.Plus;
-		if(op.equals("times"))
+		if(op.equals("mul"))
 			return Operation.Times;
 		if(op.equals("div") || op.equals("divid"))
 			return Operation.Divid;
@@ -77,6 +77,7 @@ public class ComplexFunction implements complex_function{
 		if(op.equals("none"))
 			return Operation.None;
 		return Operation.Error;
+		
 	}
 
 	@Override
@@ -164,7 +165,7 @@ public class ComplexFunction implements complex_function{
 			break;
 
 		case Error:
-			//throw exception
+			//f exception
 			break;	
 		}
 		return y;
@@ -198,40 +199,48 @@ public class ComplexFunction implements complex_function{
 
 	@Override
 	public function initFromString(String s) {
-		public function initFromString(String s) {
+		s = s.replaceAll(" ","");
+		if(!s.contains("(")) {
+			function Poly = new Polynom(s);
+//			ComplexFunction yy = new ComplexFunction(Poly);
+			return Poly;
+		}
 		int i=0;
-		String temp="";
+		String tempOp="";
 		while(s.charAt(i)!='(') {
-			temp += s.charAt(i);
+			tempOp += s.charAt(i);
 			i++;
 		}
-		this.op = getOpFromString(temp);
-		int j = i;
-		i=-1;
+		Operation tempy = getOpFromString(tempOp);
+		int temp = i;
+		i=(s.length()-1);
 		int k=0;
-		while(s.charAt(i)!=',') {
+		int j = 0;
+		while(i!=0) {
 			if(s.charAt(i)==')') {
 				k++;
-				}
+			}
+			if(s.charAt(i)==',') {
+				j++;
+			}
+			if(j>0 && k>0 && k==j){
+				function lefty = initFromString(s.substring(temp+1,i)).copy();	
+				
+				function righty = initFromString(s.substring(i+1,(s.length()-1))).copy();
+				this.left=lefty;
+				this.right=righty;
+				this.op = tempy;
+				break;
+			}
 			i--;
 		}
-		String tempRight = s.substring(i-1, -1);
-		Polynom Right = new Polynom(tempRight);
-		this.right = Right;
-
-		String tempLeft = s.substring(j, i+1);
-		initFromString(tempLeft);
+		if(k!=j) {
+			//Exception wrong string break this function
+		}
 
 
-
-		//		Polynom p = new Polynom(s);
-		//		this.left = p.copy();
-		//		this.right = new Polynom();
-		//		this.op = op.None;
-		//
 		return this;
 	}
-
 
 	public String toString() {
 		String str = "";
