@@ -272,44 +272,45 @@ public class Functions_GUI implements functions {
 
 	@Override
 	public void initFromFile(String file) throws IOException {
-		try{
-
-
+		try
+		{
 			FileInputStream fileStream = new FileInputStream(file);
-
-
-			// Get the object of DataInputStream
+			/*
+			 * Open fileInputStream session
+			 */
 			DataInputStream in = new DataInputStream(fileStream);
 			BufferedReader br = new BufferedReader(new InputStreamReader(in));
 			String strLine;
 			this.collection.clear();
-
-			while ((strLine = br.readLine()) != null) 	{
-				if(lineChecker(strLine)==true){
-					if(strLine.contains("(")) {
+			while ((strLine = br.readLine()) != null) 	
+			{
+				if(lineChecker(strLine)==true)
+				{
+					if(strLine.contains("(")) 
+					{
 						ComplexFunction p1 = new ComplexFunction();
 						this.add(p1.initFromString(strLine));
 					}
-					else {
+					else 
+					{
 						Polynom strLineP = new Polynom(strLine);
 						this.add(strLineP);
-
 					}
 				}
-
 			}
-
-
 		}
 		catch( UnsupportedOperationException |NullPointerException | ClassCastException | SecurityException |IllegalArgumentException  ex ) {
-			System.out.println("Wrong String/Operation input, Please recheck.");
+			System.out.println("Unable to execute InitFromFile function");
 		}
 	}
 
 
+/*
+ * Checking each line via initFromString method
+ */
 	private boolean lineChecker(String strLine) {
-		ComplexFunction HellYeah = new ComplexFunction();
-		HellYeah.initFromString(strLine);
+		ComplexFunction Temp = new ComplexFunction();
+		Temp.initFromString(strLine);
 		return true;
 	}
 
