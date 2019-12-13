@@ -65,7 +65,7 @@ public class ComplexFunction implements complex_function{
 		op.toLowerCase();
 		if(op.equals("plus"))
 			return Operation.Plus;
-		if(op.equals("mul"))
+		if(op.equals("mul")||op.equals("times"))
 			return Operation.Times;
 		if(op.equals("div") || op.equals("divid"))
 			return Operation.Divid;
@@ -79,10 +79,10 @@ public class ComplexFunction implements complex_function{
 			return Operation.None;
 		if(op.equals("error"))
 			return Operation.Error;
-		
-		
+
+
 		throw new IllegalArgumentException("An error occured, unrecognized Operation");
-		
+
 	}
 
 	@Override
@@ -131,8 +131,14 @@ public class ComplexFunction implements complex_function{
 	@Override
 	public double f(double x) {
 		double y = 0 ;
-		double y_l = left.f(x) , y_r = right.f(x);
+		double y_l= 0;
+		double y_r=left.f(x);;
+		if(!(right==null)) {
+				 y_r = right.f(x);
+	}
+		
 		Operation O = this.getOp();
+
 		switch(O) {
 
 		case Plus:
@@ -206,7 +212,6 @@ public class ComplexFunction implements complex_function{
 		s = s.replaceAll(" ","");
 		if(!s.contains("(")) {
 			function Poly = new Polynom(s);
-//			ComplexFunction yy = new ComplexFunction(Poly);
 			return Poly;
 		}
 		int i=0;
@@ -220,6 +225,8 @@ public class ComplexFunction implements complex_function{
 		i=(s.length()-1);
 		int k=0;
 		int j = 0;
+		if(tempy==Operation.None) {
+			j++;}
 		while(i!=0) {
 			if(s.charAt(i)==')') {
 				k++;
@@ -228,19 +235,26 @@ public class ComplexFunction implements complex_function{
 				j++;
 			}
 			if(j>0 && k>0 && k==j){
-				function lefty = initFromString(s.substring(temp+1,i)).copy();	
-				
-				function righty = initFromString(s.substring(i+1,(s.length()-1))).copy();
-				this.left=lefty;
-				this.right=righty;
-				this.op = tempy;
-				break;
+				if(!(tempy==Operation.None)) {
+					function lefty = initFromString(s.substring(temp+1,i)).copy();	
+					function righty = initFromString(s.substring(i+1,(s.length()-1))).copy();
+					this.left=lefty;
+					this.right=righty;
+					this.op = tempy;
+					break;}
+
+				else {
+					function lefty = initFromString(s.substring(temp+1,i)).copy();		
+					this.left=lefty;
+					this.right=null;
+					this.op = tempy;
+					break;
+				}
 			}
+
 			i--;
 		}
-		if(k!=j) {
-			//Exception wrong string break this function
-		}
+
 
 
 		return this;
@@ -248,10 +262,12 @@ public class ComplexFunction implements complex_function{
 
 	public String toString() {
 		String str = "";
-		if(this.op != null) {
+		if(this.op != null&&this.right!=null) {
 			str += OpToString(this.op) +"(" +this.left.toString();
 			str += "," + this.right.toString();
 		}
+		else if(this.op != null&&this.right==null) {
+			str+=this.left.toString();}
 		else {
 			str += this.toString();
 		}
