@@ -1,8 +1,5 @@
 package myMath;
-import java.util.Comparator;
-import java.util.Iterator;
-
-import myMath.LinkedList.Node;
+import java.util.*;
 /**
  * This class represents a simple "Monom" of shape a*x^b, where a is a real number and a is an integer (summed a none negative), 
  * see: https://en.wikipedia.org/wiki/Monomial 
