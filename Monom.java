@@ -113,19 +113,29 @@ public class Monom implements function{
 
 	}
 
-	public String toString() {
+public String toString() {
 		String ans ="";
 		if(isZero())
 			ans = "0.0";
 		else {
 			if (this._power == 0)
-				ans = ""+this._coefficient;
+				ans = ""+RoundDouble(this._coefficient);
 			else if (this._power == 1) 
-				ans = this._coefficient + "x";
+				ans = RoundDouble(this._coefficient) + "x";
 			else
-				ans = this._coefficient + "x^"+ this._power;
+				ans = RoundDouble(this._coefficient) + "x^"+ this._power;
 		}
 		return ans;
+	}
+	
+	/*
+	 * Rounding doubles to 4 digits after the decimal point
+	 */
+	public double RoundDouble(Double num) {
+		num = num*10000;
+		num = (double) Math.round(num);
+		num = num /10000;
+		return num;
 	}
 	public boolean valid_Monom(String monom) {
 		if (monom.matches("^[+-]?(\\d+(\\.\\d+)?)?(x(\\^\\d+)?)?$") && monom.length()>0)
