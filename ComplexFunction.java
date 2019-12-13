@@ -57,7 +57,8 @@ public class ComplexFunction implements complex_function{
 			return "error";
 
 		}
-		return "";
+		throw new IllegalArgumentException("An error occured, unrecognized Operation");
+
 	}
 	public Operation getOpFromString(String op) {
 
@@ -76,7 +77,11 @@ public class ComplexFunction implements complex_function{
 			return Operation.Comp;
 		if(op.equals("none"))
 			return Operation.None;
-		return Operation.Error;
+		if(op.equals("error"))
+			return Operation.Error;
+		
+		
+		throw new IllegalArgumentException("An error occured, unrecognized Operation");
 		
 	}
 

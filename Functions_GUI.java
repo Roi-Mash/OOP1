@@ -304,7 +304,6 @@ public class Functions_GUI implements functions {
 		}
 	}
 
-
 /*
  * Checking each line via initFromString method
  */

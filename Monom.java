@@ -1,3 +1,4 @@
+
 package myMath;
 import java.util.*;
 /**
@@ -110,7 +111,7 @@ public class Monom implements function{
 
 	}
 
-public String toString() {
+	public String toString() {
 		String ans ="";
 		if(isZero())
 			ans = "0.0";
@@ -134,6 +135,7 @@ public String toString() {
 		num = num /10000;
 		return num;
 	}
+	
 	public boolean valid_Monom(String monom) {
 		if (monom.matches("^[+-]?(\\d+(\\.\\d+)?)?(x(\\^\\d+)?)?$") && monom.length()>0)
 			return true;
