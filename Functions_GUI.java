@@ -274,27 +274,15 @@ public class Functions_GUI implements functions {
 	public void initFromFile(String file) throws IOException {
 		try
 		{
-//			FileInputStream fileStream = new FileInputStream(file);
-//			/*
-//			 * Open fileInputStream session
-//			 */
-//			DataInputStream in = new DataInputStream(fileStream);
-//			BufferedReader br = new BufferedReader(new InputStreamReader(in));
-//			String strLine;
-//			this.collection.clear();
-		
-
 						
 						FileInputStream fstream = new FileInputStream(file);
-
-
 						DataInputStream in = new DataInputStream(fstream);
 						BufferedReader br = new BufferedReader(new InputStreamReader(in));
 						String strLine;
-
+						this.collection.clear();
 
 						//Read File Line By Line
-						this.collection.clear();
+						
 			while ((strLine = br.readLine()) != null) 	
 			{
 				if(lineChecker(strLine)==true)
