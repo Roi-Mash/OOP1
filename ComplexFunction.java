@@ -165,8 +165,7 @@ public class ComplexFunction implements complex_function{
 			break;
 
 		case Error:
-			//f exception
-			break;	
+			throw new IllegalArgumentException("An error occured, unrecognized Operation.");	
 		}
 		return y;
 	}
