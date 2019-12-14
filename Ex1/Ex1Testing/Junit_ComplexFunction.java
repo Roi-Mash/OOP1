@@ -1,4 +1,4 @@
-package myMath.Ex1Testing;
+package Ex1.Ex1Testing;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import java.util.*;
 import org.junit.jupiter.api.Assertions;
