@@ -1,5 +1,5 @@
 
-package myMath;
+package Ex1;
 import java.util.*;
 /**
  * This class represents a simple "Monom" of shape a*x^b, where a is a real number and a is an integer (summed a none negative), 

@@ -1,5 +1,5 @@
-package myMath;
-import myMath.Monom;
+package Ex1;
+import Ex1.*;
 import java.io.*;
 import java.util.Iterator; 
 

@@ -1,4 +1,4 @@
-package myMath;
+package Ex1;
 
 //this class written all by us
 public class ComplexFunction implements complex_function{

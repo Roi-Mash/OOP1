@@ -1,9 +1,7 @@
 
-package myMath;
+package Ex1;
 import java.util.Iterator;
-import myMath.LinkedList;
-import myMath.Monom;
-import myMath.LinkedList.Node;
+import Ex1.LinkedList.Node;
 /**
  * This class represents a Polynom with add, multiply functionality, it also should support the following:
  * 1. Riemann's Integral: https://en.wikipedia.org/wiki/Riemann_integral
